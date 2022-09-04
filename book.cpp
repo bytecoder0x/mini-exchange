@@ -19,12 +19,29 @@ void addOrder(OrderBook &book, Order order) {
         return;
     }
 
-    if (order.side == "BUY") {
-        book.bids.push_back(order);
-        sort(book.bids.begin(), book.bids.end(), compareBids);
-    } else {
-        book.asks.push_back(order);
-        sort(book.asks.begin(), book.asks.end(), compareAsks);
+    vector<Order> &opposite = order.side == "BUY" ? book.asks : book.bids;
+
+    while (order.quantity > 0 && !opposite.empty()) {
+        Order &best = opposite[0];
+        if (order.side == "BUY" && best.price > order.price) break;
+        if (order.side == "SELL" && best.price < order.price) break;
+
+        int quantity = min(order.quantity, best.quantity);
+        cout << "TRADE " << order.id << " " << best.id << " " << quantity << " x " << best.price << endl;
+
+        order.quantity -= quantity;
+        best.quantity -= quantity;
+        if (best.quantity == 0) opposite.erase(opposite.begin());
+    }
+
+    if (order.quantity > 0) {
+        if (order.side == "BUY") {
+            book.bids.push_back(order);
+            sort(book.bids.begin(), book.bids.end(), compareBids);
+        } else {
+            book.asks.push_back(order);
+            sort(book.asks.begin(), book.asks.end(), compareAsks);
+        }
     }
 }
 
