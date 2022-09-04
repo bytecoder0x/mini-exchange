@@ -11,6 +11,7 @@ struct Order {
     string type;   // LIMIT or MARKET
     double price;
     int quantity;
+    int number;    // order of arrival, needed for sorting
 };
 
 #endif

@@ -3,4 +3,4 @@ project(mini_exchange)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(mini_exchange main.cpp order.h)
+add_executable(mini_exchange main.cpp book.cpp book.h order.h)

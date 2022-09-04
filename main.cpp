@@ -1,10 +1,10 @@
 #include <fstream>
+#include <iomanip>
 #include <iostream>
 #include <sstream>
 #include <string>
-#include <vector>
 
-#include "order.h"
+#include "book.h"
 
 using namespace std;
 
@@ -20,8 +20,11 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    vector<Order> orders;
+    cout << fixed << setprecision(2);
+
+    OrderBook book;
     string line;
+    int number = 0;
     while (getline(file, line)) {
         if (line.empty() || line[0] == '#') continue;
 
@@ -29,7 +32,9 @@ int main(int argc, char *argv[]) {
         string command;
         ss >> command;
 
-        if (command == "BUY" || command == "SELL") {
+        if (command == "PRINT") {
+            printBook(book);
+        } else if (command == "BUY" || command == "SELL") {
             Order order;
             order.side = command;
             ss >> order.type;
@@ -39,17 +44,16 @@ int main(int argc, char *argv[]) {
                 order.price = 0;
             }
             ss >> order.quantity >> order.id;
-            orders.push_back(order);
+            number++;
+            order.number = number;
+            addOrder(book, order);
         } else {
             cout << "Unknown command: " << line << endl;
         }
     }
     file.close();
 
-    for (int i = 0; i < orders.size(); i++) {
-        Order o = orders[i];
-        cout << o.id << " " << o.side << " " << o.type << " " << o.price << " " << o.quantity << endl;
-    }
+    printBook(book);
 
     return 0;
 }
