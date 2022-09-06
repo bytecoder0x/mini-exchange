@@ -14,17 +14,14 @@ bool compareAsks(Order a, Order b) {
 }
 
 void addOrder(OrderBook &book, Order order) {
-    if (order.type == "MARKET") {
-        cout << "Market orders are not supported yet" << endl;
-        return;
-    }
-
     vector<Order> &opposite = order.side == "BUY" ? book.asks : book.bids;
 
     while (order.quantity > 0 && !opposite.empty()) {
         Order &best = opposite[0];
-        if (order.side == "BUY" && best.price > order.price) break;
-        if (order.side == "SELL" && best.price < order.price) break;
+        if (order.type == "LIMIT") {
+            if (order.side == "BUY" && best.price > order.price) break;
+            if (order.side == "SELL" && best.price < order.price) break;
+        }
 
         int quantity = min(order.quantity, best.quantity);
         cout << "TRADE " << order.id << " " << best.id << " " << quantity << " x " << best.price << endl;
@@ -35,6 +32,10 @@ void addOrder(OrderBook &book, Order order) {
     }
 
     if (order.quantity > 0) {
+        if (order.type == "MARKET") {
+            cout << "UNFILLED " << order.id << " " << order.quantity << endl;
+            return;
+        }
         if (order.side == "BUY") {
             book.bids.push_back(order);
             sort(book.bids.begin(), book.bids.end(), compareBids);
