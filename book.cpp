@@ -46,6 +46,22 @@ void addOrder(OrderBook &book, Order order) {
     }
 }
 
+bool cancelOrder(OrderBook &book, string id) {
+    for (int i = 0; i < book.bids.size(); i++) {
+        if (book.bids[i].id == id) {
+            book.bids.erase(book.bids.begin() + i);
+            return true;
+        }
+    }
+    for (int i = 0; i < book.asks.size(); i++) {
+        if (book.asks[i].id == id) {
+            book.asks.erase(book.asks.begin() + i);
+            return true;
+        }
+    }
+    return false;
+}
+
 void printBook(OrderBook &book) {
     cout << "--- ASKS ---" << endl;
     for (int i = book.asks.size() - 1; i >= 0; i--) {

@@ -11,6 +11,7 @@ struct OrderBook {
 };
 
 void addOrder(OrderBook &book, Order order);
+bool cancelOrder(OrderBook &book, string id);
 void printBook(OrderBook &book);
 
 #endif

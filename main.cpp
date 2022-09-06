@@ -34,6 +34,14 @@ int main(int argc, char *argv[]) {
 
         if (command == "PRINT") {
             printBook(book);
+        } else if (command == "CANCEL") {
+            string id;
+            ss >> id;
+            if (cancelOrder(book, id)) {
+                cout << "CANCELED " << id << endl;
+            } else {
+                cout << "NOT FOUND " << id << endl;
+            }
         } else if (command == "BUY" || command == "SELL") {
             Order order;
             order.side = command;
