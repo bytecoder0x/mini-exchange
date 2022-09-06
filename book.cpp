@@ -47,7 +47,7 @@ void addOrder(OrderBook &book, Order order) {
 
 void printBook(OrderBook &book) {
     cout << "--- ASKS ---" << endl;
-    for (int i = 0; i < book.asks.size(); i++) {
+    for (int i = book.asks.size() - 1; i >= 0; i--) {
         cout << book.asks[i].price << "\t" << book.asks[i].quantity << "\t" << book.asks[i].id << endl;
     }
     cout << "--- BIDS ---" << endl;
