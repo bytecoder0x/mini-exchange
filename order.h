@@ -14,4 +14,11 @@ struct Order {
     int number;    // order of arrival, needed for sorting
 };
 
+struct Trade {
+    string buyId;
+    string sellId;
+    double price;
+    int quantity;
+};
+
 #endif

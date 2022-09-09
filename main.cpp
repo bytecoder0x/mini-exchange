@@ -62,6 +62,7 @@ int main(int argc, char *argv[]) {
     file.close();
 
     printBook(book);
+    cout << "Total trades: " << book.trades.size() << endl;
 
     return 0;
 }

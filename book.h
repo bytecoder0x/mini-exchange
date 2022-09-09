@@ -8,6 +8,7 @@
 struct OrderBook {
     vector<Order> bids;
     vector<Order> asks;
+    vector<Trade> trades;
 };
 
 void addOrder(OrderBook &book, Order order);

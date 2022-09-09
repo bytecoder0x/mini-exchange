@@ -13,6 +13,10 @@ bool compareAsks(Order a, Order b) {
     return a.number < b.number;
 }
 
+void printTrade(Trade t) {
+    cout << "TRADE " << t.buyId << " " << t.sellId << " " << t.quantity << " x " << t.price << endl;
+}
+
 void addOrder(OrderBook &book, Order order) {
     vector<Order> &opposite = order.side == "BUY" ? book.asks : book.bids;
 
@@ -24,7 +28,18 @@ void addOrder(OrderBook &book, Order order) {
         }
 
         int quantity = min(order.quantity, best.quantity);
-        cout << "TRADE " << order.id << " " << best.id << " " << quantity << " x " << best.price << endl;
+        Trade t;
+        t.price = best.price;
+        t.quantity = quantity;
+        if (order.side == "BUY") {
+            t.buyId = order.id;
+            t.sellId = best.id;
+        } else {
+            t.buyId = best.id;
+            t.sellId = order.id;
+        }
+        book.trades.push_back(t);
+        printTrade(t);
 
         order.quantity -= quantity;
         best.quantity -= quantity;
