@@ -1,6 +1,8 @@
 #include "book.h"
 
 #include <algorithm>
+#include <fstream>
+#include <iomanip>
 #include <iostream>
 
 bool compareBids(Order a, Order b) {
@@ -87,4 +89,15 @@ void printBook(OrderBook &book) {
         cout << book.bids[i].price << "\t" << book.bids[i].quantity << "\t" << book.bids[i].id << endl;
     }
     cout << endl;
+}
+
+void saveTrades(OrderBook &book, string fileName) {
+    ofstream file(fileName);
+    file << fixed << setprecision(2);
+    file << "buy_id,sell_id,price,quantity" << endl;
+    for (int i = 0; i < book.trades.size(); i++) {
+        Trade t = book.trades[i];
+        file << t.buyId << "," << t.sellId << "," << t.price << "," << t.quantity << endl;
+    }
+    file.close();
 }

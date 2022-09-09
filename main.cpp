@@ -63,6 +63,8 @@ int main(int argc, char *argv[]) {
 
     printBook(book);
     cout << "Total trades: " << book.trades.size() << endl;
+    saveTrades(book, "trades.csv");
+    cout << "Trades saved to trades.csv" << endl;
 
     return 0;
 }
