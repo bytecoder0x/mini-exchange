@@ -12,6 +12,45 @@ Program reads orders from file and matches them like real exchange do (buy with 
 - when quantity is different, order is filled partially and the rest stays in the book
 - every trade is printed and in the end all trades are saved to trades.csv
 
+### Commands
+
+```
+BUY LIMIT 100.5 10 b1     buy 10 by price 100.5, id is b1
+SELL LIMIT 101 5 s1
+SELL MARKET 7 s2          market order, without price
+CANCEL b1                 remove order from the book
+PRINT                     print the book
+```
+
+lines that start with # are skipped
+
+### Example
+
+orders.txt:
+
+```
+BUY LIMIT 100 10 b1
+BUY LIMIT 100.5 5 b2
+SELL LIMIT 101 8 s1
+SELL LIMIT 100.5 3 s3
+SELL MARKET 7 s4
+```
+
+output:
+
+```
+TRADE b2 s3 3 x 100.50
+TRADE b2 s4 2 x 100.50
+TRADE b1 s4 5 x 100.00
+--- ASKS ---
+101.00	8	s1
+--- BIDS ---
+100.00	5	b1
+
+Total trades: 3
+Trades saved to trades.csv
+```
+
 ### Build
 
 Open the project in CLion (CMakeLists.txt is there) or from terminal:
@@ -22,3 +61,9 @@ g++ main.cpp book.cpp -o mini_exchange
 ```
 
 If file name is not given, program reads orders.txt
+
+### Todo
+
+- read orders from console, not only from file
+- stop orders
+- check that id is not repeated
